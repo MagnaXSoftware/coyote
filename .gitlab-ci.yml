@@ -1,0 +1,28 @@
+image: golang:latest
+
+stages:
+  - build
+
+regular-build:
+  script:
+    - export VERSION=$CI_BUILD_REF_NAME-$CI_BUILD_REF
+    - "make build"
+  stage: build
+  tags:
+    - go
+  except:
+    - tags
+
+artifact-build:
+  script:
+    - export VERSION=$CI_BUILD_TAG
+    - "make release"
+  stage: build
+  tags:
+    - go
+  artifacts:
+    name: "coyote-build-$CI_BUILD_TAG"
+    paths:
+    - build/*
+  only:
+    - tags
