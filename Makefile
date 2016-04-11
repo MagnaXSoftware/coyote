@@ -10,7 +10,7 @@ fmt:
 	go fmt .
 
 deps:
-	go get ./...
+	go get -d ./...
 
 release-deps:
 	go get github.com/mitchellh/gox
