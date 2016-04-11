@@ -1,5 +1,3 @@
-VERSION ?= dev
-
 all: fmt combined
 
 combined:
