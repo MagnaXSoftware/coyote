@@ -1,10 +1,12 @@
+ARCH ?= "amd64 386 arm"
+
 all: fmt combined
 
 combined:
 	go install .
 
 release: deps release-deps
-	gox -os="!openbsd !netbsd !plan9" -arch="!arm" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
+	gox -os="!openbsd !netbsd !plan9" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
 
 fmt:
 	go fmt .
@@ -27,4 +29,4 @@ tag:
 build: deps
 	go build ./...
 
-.PNONY: all combined release fmt deps release-deps build
+.PNONY: all combined release fmt deps release-deps build deps vet
