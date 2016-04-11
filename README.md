@@ -1,7 +1,7 @@
 coyote
 ======
 
-[![https://git.magnax.ca/magnax/coyote/badges/master/build.svg]](https://git.magnax.ca/magnax/coyote/builds)
+[![build status](https://git.magnax.ca/magnax/coyote/badges/master/build.svg)](https://git.magnax.ca/magnax/coyote/builds)
 
 Canonical Source
 ----------------
