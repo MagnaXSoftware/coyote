@@ -18,6 +18,9 @@ release-deps:
 pull:
 	git pull
 
+vet:
+	go vet -v ./...
+
 tag:
 	git tag -a -s -m 'v${VERSION}' ${VERSION} && git push origin ${VERSION}
 

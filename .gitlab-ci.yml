@@ -3,10 +3,17 @@ image: golang:latest
 stages:
   - build
 
+vet:
+  script:
+    - make vet
+  stage: build
+  tags:
+    - go
+
 regular-build:
   script:
     - export VERSION=$CI_BUILD_REF_NAME-$CI_BUILD_REF
-    - "make build"
+    - make build
   stage: build
   tags:
     - go
@@ -16,7 +23,7 @@ regular-build:
 artifact-build:
   script:
     - export VERSION=$CI_BUILD_TAG
-    - "make release"
+    - make release
   stage: build
   tags:
     - go
