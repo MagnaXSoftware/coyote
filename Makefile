@@ -21,7 +21,7 @@ pull:
 tag:
 	git tag -a -s -m 'v${VERSION}' ${VERSION} && git push origin ${VERSION}
 
-build:
+build: deps
 	go build ./...
 
 .PNONY: all combined release fmt deps release-deps build
