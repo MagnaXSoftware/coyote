@@ -17,6 +17,9 @@ import (
 
 func main() {
 	account := &acme.Account{AgreedTerms: Config.AccountTerms}
+	if Config.AccountEmail != "" {
+		account.Contact = []string{"mailto:" + Config.AccountEmail}
+	}
 	client := &acme.Client{Key: Config.AccountKey}
 
 	if err := client.Register(Config.Server.RegURL, account); err != nil {
