@@ -8,7 +8,7 @@ Canonical Source
 
 The canonical source for this project is on the MagnaX Software git server. It
 may be duplicated elsewhere, but in case of doubt, go to
-[MagnaX GitLab](git.magnax.ca/magnax/coyote).
+[MagnaX GitLab](https://git.magnax.ca/magnax/coyote).
 
 About
 -----
