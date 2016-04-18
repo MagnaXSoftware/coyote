@@ -15,7 +15,7 @@ deps:
 	go get -d ./...
 
 release-deps:
-	go get github.com/mitchellh/gox
+	go get -u github.com/mitchellh/gox
 
 pull:
 	git pull
@@ -24,7 +24,7 @@ vet:
 	go vet -v ./...
 
 tag:
-	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin ${VERSION}
+	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin v${VERSION}
 
 build: deps
 	go build ./...
