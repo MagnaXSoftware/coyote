@@ -24,7 +24,7 @@ vet:
 	go vet -v ./...
 
 tag:
-	git tag -a -s -m 'v${VERSION}' ${VERSION} && git push origin ${VERSION}
+	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin ${VERSION}
 
 build: deps
 	go build ./...
