@@ -1,12 +1,13 @@
 image: golang:latest
 
 stages:
+  - prep
   - build
 
 vet:
   script:
     - make vet
-  stage: build
+  stage: prep
   tags:
     - go
 
