@@ -2,14 +2,17 @@ ARCH ?= "amd64 386 arm"
 
 all: fmt combined
 
+tag:
+	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin v${VERSION}
+
 combined:
 	go install .
 
-release: deps release-deps
-	gox -os="!openbsd !netbsd !plan9" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
-
 fmt:
 	go fmt .
+
+vet:
+	go vet -v ./...
 
 deps:
 	go get -d ./...
@@ -17,16 +20,10 @@ deps:
 release-deps:
 	go get -u github.com/mitchellh/gox
 
-pull:
-	git pull
-
-vet:
-	go vet -v ./...
-
-tag:
-	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin v${VERSION}
-
 build: deps
 	go build ./...
+
+release: deps release-deps
+	gox -os="!openbsd !netbsd !plan9" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
 
 .PNONY: all combined release fmt deps release-deps build deps vet
