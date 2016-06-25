@@ -79,6 +79,7 @@ func main() {
 	}
 }
 
+// authorize accepts the http-01 challenge, generates the corresponding response, and retrives the authorization.
 func authorize(client *acme.Client, domain string, httpClient *http.Client) {
 	// Get the challenges for the domain.
 	authz, err := client.Authorize(Config.Server.AuthzURL, domain)
@@ -137,6 +138,7 @@ func keyAuth(pub *rsa.PublicKey, token string) string {
 	return fmt.Sprintf("%s.%s", token, acme.JWKThumbprint(pub))
 }
 
+// pollCert polls the ACME server until the requested certificate is ready.
 func pollCert(url string) [][]byte {
 	for {
 		b, err := acme.FetchCert(nil, url, true)
