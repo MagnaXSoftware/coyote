@@ -149,4 +149,4 @@ automatically.
 
 For instance, you can setup a renewal for nginx as follow:
 
-    0 0 */2 * * coyote -account-key account.key -challenge-dir /var/www/challenges -csr domain.csr -cert domain.crt && service nginx reload
+    0 0 2 */2 * coyote -account-key account.key -challenge-dir /var/www/challenges -csr domain.csr -cert domain.crt && service nginx reload
