@@ -7,15 +7,14 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"net/url"
 	"os"
 	"path/filepath"
-
-	acme "github.com/google/goacme"
 )
 
 // Config represents the configuration options for coyote.
 var Config struct {
-	Server          acme.Endpoint
+	Server          *url.URL
 	AccountKey      *rsa.PrivateKey
 	AccountEmail    string
 	AccountTerms    string
@@ -50,7 +49,10 @@ func init() {
 
 	var err error
 
-	Config.Server, err = acme.Discover(nil, *acmeServerURL)
+	if *acmeServerURL == "" {
+		panic("no acme discovery URL provided")
+	}
+	Config.Server, err = url.Parse(*acmeServerURL)
 	if err != nil {
 		panic(err)
 	}
