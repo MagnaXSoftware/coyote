@@ -1,7 +1,7 @@
 package main
 
 import (
-	"crypto/rsa"
+	"crypto"
 	"crypto/x509"
 	"encoding/pem"
 	"flag"
@@ -15,7 +15,7 @@ import (
 // Config represents the configuration options for coyote.
 var Config struct {
 	Server          *url.URL
-	AccountKey      *rsa.PrivateKey
+	AccountKey      crypto.Signer
 	AccountEmail    string
 	AccountTerms    string
 	ChallengeDir    string
@@ -25,6 +25,7 @@ var Config struct {
 
 const (
 	rsaPrivateKey = "RSA PRIVATE KEY"
+	ecPrivateKey  = "EC PRIVATE KEY"
 	x509CSR       = "CERTIFICATE REQUEST"
 )
 
@@ -85,7 +86,9 @@ func init() {
 	Config.CertificatePath = filepath.Clean(Config.CertificatePath)
 }
 
-func readKey(path string) (*rsa.PrivateKey, error) {
+// readKey reads a private key from a given path.
+// The key is expected to be PEM encoded.
+func readKey(path string) (crypto.Signer, error) {
 	raw, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -94,12 +97,18 @@ func readKey(path string) (*rsa.PrivateKey, error) {
 	if data == nil {
 		return nil, fmt.Errorf("no block found in %q", path)
 	}
-	if data.Type != rsaPrivateKey {
+	switch data.Type {
+	case rsaPrivateKey:
+		return x509.ParsePKCS1PrivateKey(data.Bytes)
+	case ecPrivateKey:
+		return x509.ParseECPrivateKey(data.Bytes)
+	default:
 		return nil, fmt.Errorf("%q is unsupported", data.Type)
 	}
-	return x509.ParsePKCS1PrivateKey(data.Bytes)
 }
 
+// readCSR reads a certificate request from a given path.
+// The request is expected to be PEM encoded.
 func readCSR(path string) (*x509.CertificateRequest, error) {
 	raw, err := ioutil.ReadFile(path)
 	if err != nil {
