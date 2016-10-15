@@ -1,7 +1,6 @@
 package main
 
 import (
-	"crypto/rsa"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -13,10 +12,9 @@ import (
 	"sync"
 	"time"
 
+	"golang.org/x/crypto/acme"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
-
-	acme "github.com/google/acme"
 )
 
 func main() {
@@ -132,11 +130,16 @@ func authorize(ctx context.Context, client *acme.Client, domain string) error {
 	}
 
 	// We write the challenge to the file.
-	ioutil.WriteFile(filepath.Join(Config.ChallengeDir, chal.Token), []byte(keyAuth(&Config.AccountKey.PublicKey, chal.Token)), 0644)
+	response, err := client.HTTP01ChallengeResponse(chal.Token)
+	if err != nil {
+		return fmt.Errorf("could not generete the challenge response: %v", err)
+	}
+	ioutil.WriteFile(filepath.Join(Config.ChallengeDir, chal.Token), []byte(response), 0644)
 	defer os.Remove(filepath.Join(Config.ChallengeDir, chal.Token))
 
 	// We check that we can access it before telling ACME that it's all good.
-	url := "http://" + domain + "/.well-known/acme-challenge/" + chal.Token
+	// HTTP01ChallengePath prefixes with /, so we don't add one.
+	url := "http://" + domain + client.HTTP01ChallengePath(chal.Token)
 	res, err := ctxhttp.Get(ctx, http.DefaultClient, url)
 	if err != nil {
 		return err
@@ -146,31 +149,10 @@ func authorize(ctx context.Context, client *acme.Client, domain string) error {
 	}
 
 	// We tell ACME that we accept the challenge and are ready for verification.
-	if _, err := client.Accept(ctx, chal); err != nil {
+	if _, err = client.Accept(ctx, chal); err != nil {
 		log.Panicf("accept challenge: %v", err)
 	}
-	for {
-		a, err := client.GetAuthz(ctx, authz.URI)
-		if err != nil {
-			return err
-		}
-		if a.Status == acme.StatusInvalid {
-			return errors.New("could not get certificate")
-		}
-		if a.Status != acme.StatusValid {
-			time.Sleep(time.Duration(3) * time.Second)
-			continue
-		}
-		break
-	}
-	return nil
-}
 
-// keyAuth generates a key authorization string for a given token.
-func keyAuth(pub *rsa.PublicKey, token string) string {
-	thumb, err := acme.JWKThumbprint(pub)
-	if err != nil {
-		panic(err)
-	}
-	return fmt.Sprintf("%s.%s", token, thumb)
+	_, err = client.WaitAuthorization(ctx, authz.URI)
+	return err
 }

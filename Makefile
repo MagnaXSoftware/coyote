@@ -1,29 +1,33 @@
-ARCH ?= "amd64 386 arm"
+ARCH ?= amd64 386 arm
+OS ?= !openbsd !netbsd !plan9
 
-all: fmt combined
+all: tools fmt build
 
 tag:
 	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin v${VERSION}
 
-combined:
-	go install .
 
-fmt:
-	go fmt .
+clean:
+	@rm -rf ./build
+	@rm -f ./coyote
 
-vet:
-	go vet -v ./...
-
-deps:
-	go get -d ./...
-
-release-deps:
+tools:
+	go get -u github.com/kardianos/govendor
 	go get -u github.com/mitchellh/gox
 
+deps: tools
+	govendor sync
+
+fmt: deps
+	go fmt .
+
+vet: deps
+	go vet -v .
+
 build: deps
-	go build ./...
+	go build .
 
-release: deps release-deps
-	gox -os="!openbsd !netbsd !plan9" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
+release: tools deps clean
+	gox -os="${OS}" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
 
-.PNONY: all combined release fmt deps release-deps build deps vet
+.PNONY: all tag clean tools deps fmt vet build release
