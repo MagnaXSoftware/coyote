@@ -1,4 +1,9 @@
-image: golang:latest
+image: golang:1.7
+
+before_script:
+  - mkdir -p "$GOPATH/src/git.magnax.ca/$CI_PROJECT_NAMESPACE"
+  - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/git.magnax.ca/$CI_PROJECT_PATH"
+  - cd "$GOPATH/src/git.magnax.ca/$CI_PROJECT_PATH"
 
 stages:
   - prep
@@ -21,47 +26,39 @@ build:
   except:
     - tags
 
-release-386:
-  script:
-    - export VERSION=$CI_BUILD_TAG
-    - export ARCH=386
-    - make release
+.release: &release
   stage: build
   tags:
     - go
+  artifacts:
+    paths:
+      - build/*
+  only:
+    - tags
+
+release-386:
+  <<: *release
+  script:
+    - export ARCH=386
+    - export VERSION=$CI_BUILD_TAG
+    - make release
   artifacts:
     name: "coyote-386-$CI_BUILD_TAG"
-    paths:
-    - build/*
-  only:
-    - tags
 
 release-arm:
+  <<: *release
   script:
-    - export VERSION=$CI_BUILD_TAG
     - export ARCH=arm
+    - export VERSION=$CI_BUILD_TAG
     - make release
-  stage: build
-  tags:
-    - go
   artifacts:
     name: "coyote-arm-$CI_BUILD_TAG"
-    paths:
-    - build/*
-  only:
-    - tags
 
 release-amd64:
+  <<: *release
   script:
-    - export VERSION=$CI_BUILD_TAG
     - export ARCH=amd64
+    - export VERSION=$CI_BUILD_TAG
     - make release
-  stage: build
-  tags:
-    - go
   artifacts:
     name: "coyote-amd64-$CI_BUILD_TAG"
-    paths:
-    - build/*
-  only:
-    - tags

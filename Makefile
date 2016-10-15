@@ -28,6 +28,6 @@ build: deps
 	go build .
 
 release: tools deps clean
-	gox -os="${OS}" -arch="${ARCH}" -output="build/{{.Dir}}_{{.OS}}_{{.Arch}}" .
+	gox -os="${OS}" -arch="${ARCH}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
 
 .PNONY: all tag clean tools deps fmt vet build release
