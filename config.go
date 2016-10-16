@@ -29,15 +29,25 @@ const (
 	x509CSR       = "CERTIFICATE REQUEST"
 )
 
+var (
+	acmeServerURL  string
+	accountKeyPath string
+	csrPath        string
+)
+
+// init sets up the flags for the configuration.
 func init() {
-	acmeServerURL := flag.String("acme-server", "https://acme-v01.api.letsencrypt.org/directory", "URL of the ACME server directory. defaults to the Let's Encrypt live server")
-	accountKeyPath := flag.String("account-key", "", "Path to your Let's Encrypt account private key.")
+	flag.StringVar(&acmeServerURL, "acme-server", "https://acme-v01.api.letsencrypt.org/directory", "URL of the ACME server directory. defaults to the Let's Encrypt live server")
+	flag.StringVar(&accountKeyPath, "account-key", "", "Path to your Let's Encrypt account private key.")
 	flag.StringVar(&Config.AccountEmail, "account-email", "", "The email to associate with the registration.")
 	flag.StringVar(&Config.AccountTerms, "account-terms", "https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf", "The terms that need to be accepted before certificate issuance.")
 	flag.StringVar(&Config.ChallengeDir, "challenge-dir", ".well-known/acme-challenge/", "Path to the challenge directory.")
-	csrPath := flag.String("csr", "", "Path to your CSR file.")
+	flag.StringVar(&csrPath, "csr", "", "Path to your CSR file.")
 	flag.StringVar(&Config.CertificatePath, "cert", "", "Path to the certificate file (with chain)")
+}
 
+// parseArgs is called to actually populate the Config structure with the args.
+func parseArgs() {
 	flag.Parse()
 
 	defer func() {
@@ -50,27 +60,27 @@ func init() {
 
 	var err error
 
-	if *acmeServerURL == "" {
+	if acmeServerURL == "" {
 		panic("no acme discovery URL provided")
 	}
-	Config.Server, err = url.Parse(*acmeServerURL)
+	Config.Server, err = url.Parse(acmeServerURL)
 	if err != nil {
 		panic(err)
 	}
 
-	if *accountKeyPath == "" {
+	if accountKeyPath == "" {
 		panic("no account key supplied")
 	}
-	privKey, err := readKey(*accountKeyPath)
+	privKey, err := readKey(accountKeyPath)
 	if err != nil {
 		panic(err)
 	}
 	Config.AccountKey = privKey
 
-	if *csrPath == "" {
+	if csrPath == "" {
 		panic("no CSR supplied")
 	}
-	csr, err := readCSR(*csrPath)
+	csr, err := readCSR(csrPath)
 	if err != nil {
 		panic(err)
 	}
