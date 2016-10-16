@@ -17,7 +17,20 @@ import (
 	"golang.org/x/net/context/ctxhttp"
 )
 
+var (
+	// Version is the version of the application
+	Version = "DEV-SNAPSHOT"
+)
+
 func main() {
+	// Check if we were asked the version information.
+	for _, arg := range os.Args[1:] {
+		if arg == "version" {
+			fmt.Printf("%v %v\n", filepath.Base(os.Args[0]), Version)
+			return
+		}
+	}
+
 	parseArgs()
 
 	getCertificate()

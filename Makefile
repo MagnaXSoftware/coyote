@@ -1,5 +1,6 @@
 BUILD_ARCH ?= amd64 386 arm
 BUILD_OS ?= !openbsd !netbsd !plan9
+BUILD_VERSION ?= $(shell git describe --long --dirty)
 
 all: tools fmt build
 
@@ -25,9 +26,9 @@ vet: deps
 	go vet -v .
 
 build: deps
-	go build .
+	go build -ldflags "-X main.Version=${BUILD_VERSION}" .
 
 release: tools deps clean
-	gox -os="${BUILD_OS}" -arch="${BUILD_ARCH}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
+	gox -os="${BUILD_OS}" -arch="${BUILD_ARCH}" -ldflags "-X main.Version=${BUILD_VERSION}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
 
 .PNONY: all tag clean tools deps fmt vet build release
