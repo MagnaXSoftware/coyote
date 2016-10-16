@@ -47,9 +47,6 @@ build:1.7:
   stage: build
   tags:
     - go
-  artifacts:
-    paths:
-      - build/*
   only:
     - tags
 
@@ -61,6 +58,8 @@ release-386:
     - make release
   artifacts:
     name: "coyote-386-$CI_BUILD_TAG"
+    paths:
+      - build/*
 
 release-amd64:
   <<: *release
@@ -70,6 +69,8 @@ release-amd64:
     - make release
   artifacts:
     name: "coyote-amd64-$CI_BUILD_TAG"
+    paths:
+      - build/*
 
 release-arm:
   <<: *release
@@ -79,3 +80,5 @@ release-arm:
     - make release
   artifacts:
     name: "coyote-arm-$CI_BUILD_TAG"
+    paths:
+      - build/*
