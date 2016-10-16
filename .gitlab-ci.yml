@@ -1,4 +1,4 @@
-image: golang:1.6
+image: golang:1.7
 
 before_script:
   - mkdir -p "$GOPATH/src/git.magnax.ca/$CI_PROJECT_NAMESPACE"
@@ -16,7 +16,7 @@ vet:
   tags:
     - go
 
-build:
+.build: &build
   script:
     - make build
   stage: build
@@ -24,6 +24,14 @@ build:
     - go
   except:
     - tags
+
+build:1.6:
+  <<: *build
+  image: golang:1.6
+
+build:1.7:
+  <<: *build
+  image: golang:1.7
 
 .release: &release
   stage: build
