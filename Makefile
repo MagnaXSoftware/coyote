@@ -2,7 +2,7 @@ BUILD_ARCH ?= amd64 386 arm arm64
 BUILD_OS ?= !openbsd !netbsd !plan9
 BUILD_VERSION ?= $(shell git describe --long --dirty)
 
-all: tools fmt build
+all: tools clean fmt build
 
 tag:
 	git tag -a -s -m 'v${VERSION}' v${VERSION} && git push origin v${VERSION}
@@ -11,6 +11,7 @@ tag:
 clean:
 	@rm -rf ./build
 	@rm -f ./coyote
+	@rm -f ./coyote.exe
 
 tools:
 	go get -u github.com/kardianos/govendor
