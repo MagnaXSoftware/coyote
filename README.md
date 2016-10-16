@@ -29,6 +29,35 @@ Once compiled, this program has **no external dependency**. This makes it easy
 to install on a variety of platforms. It is also very small, which makes it easy
 to read and audit prior to usage (recommended).
 
+Building
+--------
+
+The simple solution is to grab the pre-built executable from gitlab or github 
+for your platform, and drop them in your path.
+
+If you want to compile your own (because you don't trust us or we don't compile 
+for your platform), then follow these instructions:
+
+```shell
+# First get the source.
+$ go get -u -d git.magnax.ca/magnax/coyote
+
+# Next navigate to the source directory.
+$ cd $GOPATH/src/git.magnax.ca/magnax/coyote
+
+# And run make to build the executable for your current platform.
+# You can change the version string that will be compiled by using the 
+# BUILD_VERSION make variable. It currently defaults to 
+# `git describe --long --dirty`.
+$ make BUILD_VERSION="`git describe --long --dirty`-custom"
+
+# You can also build a release version (using gox) for any platform that gox
+# supports. The make variables as BUILD_OS, for the os targets, and BUILD_ARCH,
+# for the architecture targets.
+$ make release BUILD_OS=linux BUILD_ARCH='!arm !386' BUILD_VERSION="internal-1-`git rev-parse HEAD`"
+
+```
+
 Usage
 -----
 
