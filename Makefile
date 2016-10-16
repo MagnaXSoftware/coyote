@@ -1,4 +1,4 @@
-BUILD_ARCH ?= amd64 386 arm
+BUILD_ARCH ?= amd64 386 arm arm64
 BUILD_OS ?= !openbsd !netbsd !plan9
 BUILD_VERSION ?= $(shell git describe --long --dirty)
 
