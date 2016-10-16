@@ -45,8 +45,6 @@ build:1.7:
 
 .release: &release
   stage: build
-  before_script:
-    - export BUILD_VERSION=$(git describe)
   tags:
     - go
   artifacts:
@@ -59,14 +57,25 @@ release-386:
   <<: *release
   script:
     - export BUILD_ARCH=386
+    - export BUILD_VERSION=$(git describe)
     - make release
   artifacts:
     name: "coyote-386-$CI_BUILD_TAG"
+
+release-amd64:
+  <<: *release
+  script:
+    - export BUILD_ARCH=amd64
+    - export BUILD_VERSION=$(git describe)
+    - make release
+  artifacts:
+    name: "coyote-amd64-$CI_BUILD_TAG"
 
 release-arm:
   <<: *release
   script:
     - export BUILD_ARCH=arm
+    - export BUILD_VERSION=$(git describe)
     - make release
   artifacts:
     name: "coyote-arm-$CI_BUILD_TAG"
@@ -75,14 +84,7 @@ release-arm64:
   <<: *release
   script:
     - export BUILD_ARCH=arm64
+    - export BUILD_VERSION=$(git describe)
     - make release
   artifacts:
     name: "coyote-arm64-$CI_BUILD_TAG"
-
-release-amd64:
-  <<: *release
-  script:
-    - export BUILD_ARCH=amd64
-    - make release
-  artifacts:
-    name: "coyote-amd64-$CI_BUILD_TAG"
