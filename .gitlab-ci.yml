@@ -39,7 +39,7 @@ build:
 release-386:
   <<: *release
   script:
-    - export ARCH=386
+    - export BUILD_ARCH=386
     - export VERSION=$CI_BUILD_TAG
     - make release
   artifacts:
@@ -48,7 +48,7 @@ release-386:
 release-arm:
   <<: *release
   script:
-    - export ARCH=arm
+    - export BUILD_ARCH=arm
     - export VERSION=$CI_BUILD_TAG
     - make release
   artifacts:
@@ -57,7 +57,7 @@ release-arm:
 release-amd64:
   <<: *release
   script:
-    - export ARCH=amd64
+    - export BUILD_ARCH=amd64
     - export VERSION=$CI_BUILD_TAG
     - make release
   artifacts:

@@ -1,5 +1,5 @@
-ARCH ?= amd64 386 arm
-OS ?= !openbsd !netbsd !plan9
+BUILD_ARCH ?= amd64 386 arm
+BUILD_OS ?= !openbsd !netbsd !plan9
 
 all: tools fmt build
 
@@ -28,6 +28,6 @@ build: deps
 	go build .
 
 release: tools deps clean
-	gox -os="${OS}" -arch="${ARCH}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
+	gox -os="${BUILD_OS}" -arch="${BUILD_ARCH}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
 
 .PNONY: all tag clean tools deps fmt vet build release

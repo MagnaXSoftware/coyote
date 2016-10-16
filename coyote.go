@@ -40,14 +40,14 @@ func getCertificate() {
 	// change and we don't update the terms we accept). If we auto accept, they
 	// can end up agreeing to terms they didn't want.
 	if a, err := client.Register(ctx, account, func(tosURL string) bool { return false }); err != nil {
-		if rerr, ok := err.(*acme.Error); ok && rerr.StatusCode == 409 {
-			// An account with this key exists.
+		rerr, ok := err.(*acme.Error)
+		if ok && rerr.StatusCode == 409 {
+			// An account with this key exists. Let's add it to the
 			location := rerr.Header.Get("Location")
 			if location == "" {
 				// We have a non-compliant server
 				log.Fatalf("reg: server returned 409 (%v) but no location prodived", err)
 			}
-			// We get the absolute URL based on the existing server URL
 			accountURL, uerr := Config.Server.Parse(location)
 			if uerr != nil {
 				log.Fatalf("reg: could not parse acme account URL %v", err)
