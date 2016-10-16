@@ -20,6 +20,7 @@ _cgo_export.*
 
 _testmain.go
 
+coyote
 *.exe
 *.test
 *.prof
