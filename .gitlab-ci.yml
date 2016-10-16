@@ -1,9 +1,12 @@
 image: golang:1.7
 
+variables:
+  SCM_DOMAIN: "git.magnax.ca"
+
 before_script:
-  - mkdir -p "$GOPATH/src/git.magnax.ca/$CI_PROJECT_NAMESPACE"
-  - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/git.magnax.ca/$CI_PROJECT_PATH"
-  - cd "$GOPATH/src/git.magnax.ca/$CI_PROJECT_PATH"
+  - mkdir -p "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_NAMESPACE"
+  - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_PATH"
+  - cd "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_PATH"
 
 stages:
   - prep
@@ -28,8 +31,9 @@ vet:
 build:1.5:
   <<: *build
   image: golang:1.5
-  before_script:
+  script:
     - export GO15VENDOREXPERIMENT=1
+    - make build
 
 build:1.6:
   <<: *build
