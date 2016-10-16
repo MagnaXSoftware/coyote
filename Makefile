@@ -1,5 +1,5 @@
 BUILD_ARCH ?= amd64 386 arm arm64
-BUILD_OS ?= !openbsd !netbsd !plan9
+BUILD_OS ?= !netbsd !plan9
 BUILD_VERSION ?= $(shell git describe --long --dirty)
 
 all: tools clean fmt build
