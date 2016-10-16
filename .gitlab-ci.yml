@@ -1,4 +1,4 @@
-image: golang:1.7
+image: golang:1.6
 
 before_script:
   - mkdir -p "$GOPATH/src/git.magnax.ca/$CI_PROJECT_NAMESPACE"
