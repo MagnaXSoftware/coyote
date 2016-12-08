@@ -25,7 +25,7 @@ var (
 func main() {
 	// Check if we were asked the version information.
 	for _, arg := range os.Args[1:] {
-		if arg == "version" {
+		if arg == "version" || arg == "-v" || arg == "-version" {
 			fmt.Printf("%v %v\n", filepath.Base(os.Args[0]), Version)
 			return
 		}
