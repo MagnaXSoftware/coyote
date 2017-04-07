@@ -3,22 +3,22 @@
 	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "TK1Yr8BbwionaaAvM+77lwAAx/8=",
+			"checksumSHA1": "D9zaAT8KsACLPvjKFcV8lJUnB1M=",
 			"path": "golang.org/x/crypto/acme",
-			"revision": "95cb608f365d51e0e69abc646ec90c0e26fb427f",
-			"revisionTime": "2016-12-05T17:23:45Z"
+			"revision": "55a552f0823e0d3d54931488a2993ebd2fd0258c",
+			"revisionTime": "2017-04-07T13:23:05Z"
 		},
 		{
-			"checksumSHA1": "9jjO5GjLa0XF/nfWihF02RoH4qc=",
+			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
 			"path": "golang.org/x/net/context",
-			"revision": "944c58e9d57bcecf171fd4bea155269aa8a96805",
-			"revisionTime": "2016-12-07T20:53:17Z"
+			"revision": "d1e1b351919c6738fdeb9893d5c998b161464f0c",
+			"revisionTime": "2016-12-29T22:47:41Z"
 		},
 		{
 			"checksumSHA1": "WHc3uByvGaMcnSoI21fhzYgbOgg=",
 			"path": "golang.org/x/net/context/ctxhttp",
-			"revision": "944c58e9d57bcecf171fd4bea155269aa8a96805",
-			"revisionTime": "2016-12-07T20:53:17Z"
+			"revision": "d1e1b351919c6738fdeb9893d5c998b161464f0c",
+			"revisionTime": "2016-12-29T22:47:41Z"
 		}
 	],
 	"rootPath": "git.magnax.ca/magnax/coyote"
