@@ -1,4 +1,4 @@
-image: golang:1.7
+image: golang:1.8
 
 variables:
   SCM_DOMAIN: "git.magnax.ca"
@@ -42,6 +42,10 @@ build:1.6:
 build:1.7:
   <<: *build
   image: golang:1.7
+
+build:1.8:
+  <<: *build
+  image: golang:1.8
 
 .release: &release
   stage: build
