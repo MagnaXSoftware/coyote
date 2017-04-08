@@ -28,17 +28,6 @@ vet:
   except:
     - tags
 
-build:1.5:
-  <<: *build
-  image: golang:1.5
-  script:
-    - export GO15VENDOREXPERIMENT=1
-    - make build
-
-build:1.6:
-  <<: *build
-  image: golang:1.6
-
 build:1.7:
   <<: *build
   image: golang:1.7

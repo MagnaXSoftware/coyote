@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/pem"
 	"errors"
 	"fmt"
@@ -13,7 +14,6 @@ import (
 	"time"
 
 	"golang.org/x/crypto/acme"
-	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
 )
 
