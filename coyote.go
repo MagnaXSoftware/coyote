@@ -160,15 +160,17 @@ func authorize(ctx context.Context, client *acme.Client, domain string) error {
 	ioutil.WriteFile(filepath.Join(Config.ChallengeDir, chal.Token), []byte(response), 0644)
 	defer os.Remove(filepath.Join(Config.ChallengeDir, chal.Token))
 
-	// We check that we can access it before telling ACME that it's all good.
-	// HTTP01ChallengePath prefixes with /, so we don't add one.
-	url := "http://" + domain + client.HTTP01ChallengePath(chal.Token)
-	res, err := ctxhttp.Get(ctx, http.DefaultClient, url)
-	if err != nil {
-		return err
-	}
-	if res.StatusCode < 200 || res.StatusCode > 299 {
-		return fmt.Errorf("StatusCode %d: could not read authentication at %v", res.StatusCode, url)
+	if !Config.SkipSelfCheck {
+		// We check that we can access it before telling ACME that it's all good.
+		// HTTP01ChallengePath prefixes with /, so we don't add one.
+		url := "http://" + domain + client.HTTP01ChallengePath(chal.Token)
+		res, err := ctxhttp.Get(ctx, http.DefaultClient, url)
+		if err != nil {
+			return err
+		}
+		if res.StatusCode < 200 || res.StatusCode > 299 {
+			return fmt.Errorf("StatusCode %d: could not read authentication at %v", res.StatusCode, url)
+		}
 	}
 
 	// We tell ACME that we accept the challenge and are ready for verification.

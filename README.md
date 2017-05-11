@@ -63,15 +63,16 @@ Usage
 
 The tool has a few command line arguments:
 
-| name          | status       | usage                                                                                                                                                                                               |
-|---------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| account-email | optional     | The email to associate with the account for things like recovery purposes.                                                                                                                          |
-| account-key   | **required** | The path to the private key used for the account. Try not to change it.                                                                                                                             |
-| account-terms | optional     | The terms that should be auto-accepted before certificate issuance. Make sure that you read them, because coyote auto-accepts them. They default to the let's encrypt terms from July 27th 2015.    |
-| acme-server   | optional     | The URL of the ACME server directory. The directory returns a json object listing the url of the ACME endpoints. The default is the let's encrypt live v01 server.                                  |
-| challenge-dir | **required** | The directory that will contain the http challenges that will be served by the webserver. Make sure that coyote can write to it, and that the browser serves it from _.well-known/acme-challenge/_. |
-| csr           | **required** | The path to the CSR with the domains to issue a certificate for. Subject Alternative Names are accepted.                                                                                            |
-| cert          | **required** | The path to the certificate file. This file will be overridden if the certificate is successfully issued. The chain will be appended after the certificate.                                        |
+| name            | status       | usage                                                                                                                                                                                               |
+|-----------------|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| account-email   | optional     | The email to associate with the account for things like recovery purposes.                                                                                                                          |
+| account-key     | **required** | The path to the private key used for the account. Try not to change it.                                                                                                                             |
+| account-terms   | optional     | The terms that should be auto-accepted before certificate issuance. Make sure that you read them, because coyote auto-accepts them. They default to the let's encrypt terms from July 27th 2015.    |
+| acme-server     | optional     | The URL of the ACME server directory. The directory returns a json object listing the url of the ACME endpoints. The default is the let's encrypt live v01 server.                                  |
+| challenge-dir   | **required** | The directory that will contain the http challenges that will be served by the webserver. Make sure that coyote can write to it, and that the browser serves it from _.well-known/acme-challenge/_. |
+| csr             | **required** | The path to the CSR with the domains to issue a certificate for. Subject Alternative Names are accepted.                                                                                            |
+| cert            | **required** | The path to the certificate file. This file will be overridden if the certificate is successfully issued. The chain will be appended after the certificate.                                         |
+| skip-load-check | optional     | Whether to skip loading the challenge file over HTTP before sending the challenge to the ACME server. Useful in some networks.                                                                      |
 
 How To
 ------

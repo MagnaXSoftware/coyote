@@ -21,6 +21,7 @@ var Config struct {
 	ChallengeDir    string
 	CSR             *x509.CertificateRequest
 	CertificatePath string
+	SkipSelfCheck   bool
 }
 
 const (
@@ -44,6 +45,7 @@ func init() {
 	flag.StringVar(&Config.ChallengeDir, "challenge-dir", ".well-known/acme-challenge/", "Path to the challenge directory.")
 	flag.StringVar(&csrPath, "csr", "", "Path to your CSR file.")
 	flag.StringVar(&Config.CertificatePath, "cert", "", "Path to the certificate file (with chain)")
+	flag.BoolVar(&Config.SkipSelfCheck, "skip-load-check", false, "Skip loading the challenge before sending the request to ACME")
 }
 
 // parseArgs is called to actually populate the Config structure with the args.
