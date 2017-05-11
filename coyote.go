@@ -36,6 +36,10 @@ func main() {
 	getCertificate()
 }
 
+// getCertificate handles registering the certificates.
+//
+// It does the registration with the ACME directory, extracts the domains from the CSR,
+// asks for the challenges, authorizes the domains, and finally gets the signed certificate.
 func getCertificate() {
 	account := &acme.Account{AgreedTerms: Config.AccountTerms}
 	if Config.AccountEmail != "" {
@@ -123,7 +127,7 @@ func getCertificate() {
 	}
 }
 
-// authorize accepts the http-01 challenge, generates the corresponding response, and retrives the authorization.
+// authorize accepts the http-01 challenge, generates the corresponding response, and retrieves the authorization.
 func authorize(ctx context.Context, client *acme.Client, domain string) error {
 	// Get the challenges for the domain.
 	authz, err := client.Authorize(ctx, domain)
@@ -169,7 +173,7 @@ func authorize(ctx context.Context, client *acme.Client, domain string) error {
 
 	// We tell ACME that we accept the challenge and are ready for verification.
 	if _, err = client.Accept(ctx, chal); err != nil {
-		log.Panicf("accept challenge: %v", err)
+		return fmt.Errorf("could not accept challenge: %v", err)
 	}
 
 	_, err = client.WaitAuthorization(ctx, authz.URI)
