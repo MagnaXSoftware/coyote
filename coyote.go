@@ -72,11 +72,11 @@ func getCertificate() {
 			account.URI = accountURL.String()
 
 			// If an account exists, we update the terms and the contacts
-			if ac, uerr := client.UpdateReg(ctx, account); uerr != nil {
-				log.Fatalf("reg: %v", uerr)
-			} else {
-				account = ac
-			}
+			//if ac, uerr := client.UpdateReg(ctx, account); uerr != nil {
+			//	log.Fatalf("reg: %v", uerr)
+			//} else {
+			//	account = ac
+			//}
 		} else {
 			log.Fatalf("reg: %v", err)
 		}
@@ -155,9 +155,13 @@ func authorize(ctx context.Context, client *acme.Client, domain string) error {
 	// We write the challenge to the file.
 	response, err := client.HTTP01ChallengeResponse(chal.Token)
 	if err != nil {
-		return fmt.Errorf("could not generete the challenge response: %v", err)
+		return fmt.Errorf("could not generate the challenge response: %v", err)
 	}
-	ioutil.WriteFile(filepath.Join(Config.ChallengeDir, chal.Token), []byte(response), 0644)
+	err = ioutil.WriteFile(filepath.Join(Config.ChallengeDir, chal.Token), []byte(response), 0644)
+	if err != nil {
+		return fmt.Errorf("could not output challenge response: %v", err)
+	}
+	//noinspection GoUnhandledErrorResult
 	defer os.Remove(filepath.Join(Config.ChallengeDir, chal.Token))
 
 	if !Config.SkipSelfCheck {

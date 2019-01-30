@@ -41,7 +41,7 @@ func init() {
 	flag.StringVar(&acmeServerURL, "acme-server", "https://acme-v01.api.letsencrypt.org/directory", "URL of the ACME server directory. defaults to the Let's Encrypt live server")
 	flag.StringVar(&accountKeyPath, "account-key", "", "Path to your Let's Encrypt account private key.")
 	flag.StringVar(&Config.AccountEmail, "account-email", "", "The email to associate with the registration.")
-	flag.StringVar(&Config.AccountTerms, "account-terms", "https://letsencrypt.org/documents/LE-SA-v1.1.1-August-1-2016.pdf", "The terms that need to be accepted before certificate issuance.")
+	flag.StringVar(&Config.AccountTerms, "account-terms", "https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf", "The terms that need to be accepted before certificate issuance.")
 	flag.StringVar(&Config.ChallengeDir, "challenge-dir", ".well-known/acme-challenge/", "Path to the challenge directory.")
 	flag.StringVar(&csrPath, "csr", "", "Path to your CSR file.")
 	flag.StringVar(&Config.CertificatePath, "cert", "", "Path to the certificate file (with chain)")
@@ -55,6 +55,7 @@ func parseArgs() {
 	defer func() {
 		if r := recover(); r != nil {
 			flag.Usage()
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintln(os.Stderr, r)
 			os.Exit(1)
 		}

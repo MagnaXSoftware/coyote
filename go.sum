@@ -1,0 +1,5 @@
+github.com/mitchellh/gox v0.4.0/go.mod h1:Sd9lOJ0+aimLBi73mGofS1ycjY8lL3uZM3JPS42BGNg=
+golang.org/x/crypto v0.0.0-20180621125126-a49355c7e3f8 h1:h7zdf0RiEvWbYBKIx4b+q41xoUVnMmvsGZnIVE5syG8=
+golang.org/x/crypto v0.0.0-20180621125126-a49355c7e3f8/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
+golang.org/x/net v0.0.0-20180702212446-ed29d75add3d h1:B2RL9y12DFXBWEdHqZW1ts6ymJLN0FdBwL2mOY5zbCs=
+golang.org/x/net v0.0.0-20180702212446-ed29d75add3d/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=

@@ -13,23 +13,19 @@ clean:
 	@rm -f ./coyote
 	@rm -f ./coyote.exe
 
-tools:
-	go get -u github.com/kardianos/govendor
-	go get -u github.com/mitchellh/gox
-
-deps: tools
-	govendor sync
-
-fmt: deps
+fmt:
 	go fmt .
 
-vet: deps
+vet:
 	go vet -v .
 
-build: deps
+build:
 	go build -ldflags "-X main.Version=${BUILD_VERSION}" .
 
-release: tools deps clean
+tools:
+	go get -u github.com/mitchellh/gox
+
+release: tools clean
 	gox -os="${BUILD_OS}" -arch="${BUILD_ARCH}" -ldflags "-X main.Version=${BUILD_VERSION}" -output="build/{{.Dir}}-{{.OS}}-{{.Arch}}" .
 
-.PNONY: all tag clean tools deps fmt vet build release
+.PNONY: all tag clean tools fmt vet build release

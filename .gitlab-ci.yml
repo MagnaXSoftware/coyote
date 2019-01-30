@@ -1,12 +1,4 @@
-image: golang:1.8
-
-variables:
-  SCM_DOMAIN: "git.magnax.ca"
-
-before_script:
-  - mkdir -p "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_NAMESPACE"
-  - ln -s "$CI_PROJECT_DIR" "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_PATH"
-  - cd "$GOPATH/src/$SCM_DOMAIN/$CI_PROJECT_PATH"
+image: golang:1.11s
 
 stages:
   - prep
@@ -19,7 +11,7 @@ vet:
   tags:
     - go
 
-.build: &build
+build:
   script:
     - make build
   stage: build
@@ -27,14 +19,6 @@ vet:
     - go
   except:
     - tags
-
-build:1.7:
-  <<: *build
-  image: golang:1.7
-
-build:1.8:
-  <<: *build
-  image: golang:1.8
 
 .release: &release
   stage: build
