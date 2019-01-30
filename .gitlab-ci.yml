@@ -1,4 +1,4 @@
-image: golang:1.11s
+image: golang:1.11
 
 stages:
   - prep
